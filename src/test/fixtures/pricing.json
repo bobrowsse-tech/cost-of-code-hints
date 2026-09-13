@@ -1,0 +1,25 @@
+{
+  "currency": "USD",
+  "hoursPerMonth": 730,
+  "rates": [
+    {
+      "id": "default.invocation",
+      "unit": "invocation",
+      "pricePerUnit": 0.01
+    },
+    {
+      "id": "egress.bytes",
+      "unit": "byte",
+      "attribute": "http.response.body.size",
+      "pricePerUnit": 0.001
+    },
+    {
+      "id": "openai.gpt4o.request",
+      "unit": "request",
+      "attribute": "gen_ai.usage.total_tokens",
+      "matchAttribute": "gen_ai.request.model",
+      "matchValue": "gpt-4o",
+      "pricePerUnit": 0.002
+    }
+  ]
+}

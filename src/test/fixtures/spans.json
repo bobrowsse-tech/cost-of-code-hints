@@ -1,0 +1,42 @@
+{
+  "spans": [
+    {
+      "name": "chargeCustomer",
+      "attributes": {
+        "code.filepath": "src/billing.ts",
+        "code.lineno": 42,
+        "http.response.body.size": 1000
+      }
+    },
+    {
+      "name": "chargeCustomer",
+      "attributes": {
+        "code.filepath": "src/billing.ts",
+        "code.lineno": 42,
+        "http.response.body.size": 2000
+      }
+    },
+    {
+      "name": "render",
+      "attributes": {
+        "code.filepath": "src/ui.ts",
+        "code.lineno": 10
+      }
+    },
+    {
+      "name": "openai",
+      "attributes": {
+        "code.filepath": "src/ai.ts",
+        "code.lineno": 7,
+        "gen_ai.request.model": "gpt-4o",
+        "gen_ai.usage.total_tokens": 500
+      }
+    },
+    {
+      "name": "orphan",
+      "attributes": {
+        "service.name": "api"
+      }
+    }
+  ]
+}

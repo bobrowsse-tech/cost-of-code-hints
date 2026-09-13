@@ -1,27 +1,55 @@
 import * as vscode from 'vscode';
+import type { CostHintsService, CostReport } from './service';
+import type { DashboardProvider } from './dashboardProvider';
+import type { CostCodeLensProvider } from './codeLensProvider';
 
-// Language Model Tool registration — makes this extension's core capability
-// callable by Copilot Chat, Claude Code, or any other agent that supports
-// VS Code's Language Model Tool API. The `name` here MUST match the `name`
-// field of the languageModelTools entry in package.json.
-//
-// Docs: https://code.visualstudio.com/api/extension-guides/ai/tools
+interface ToolInput {
+  filePath?: string;
+}
 
-export function registerEstimateCodeCostTool(context: vscode.ExtensionContext) {
+/**
+ * Report-only LM tool — returns cost estimates; does not mutate pricing or secrets.
+ */
+export function registerEstimateCodeCostTool(
+  context: vscode.ExtensionContext,
+  getService: () => CostHintsService | undefined,
+  getConfig: () => import('./service').TelemetrySourceConfig | undefined,
+  getToken: () => Promise<string | undefined>,
+  setReport: (report: CostReport) => void,
+  dashboard: DashboardProvider,
+  codeLens: CostCodeLensProvider
+) {
   context.subscriptions.push(
-    vscode.lm.registerTool("estimate_code_cost", {
+    vscode.lm.registerTool('estimate_code_cost', {
       async invoke(
-        options: vscode.LanguageModelToolInvocationOptions<any>,
+        options: vscode.LanguageModelToolInvocationOptions<ToolInput>,
         _token: vscode.CancellationToken
       ) {
-        // TODO: implement using the same core logic the dashboard buttons
-        // call — do not duplicate; both entry points should call one
-        // shared service module (see DIRECTIVE.md, "Implementation phases").
-        const result = "estimate_code_cost is not yet implemented \u2014 see DIRECTIVE.md";
-        return new vscode.LanguageModelToolResult([
-          new vscode.LanguageModelTextPart(result),
-        ]);
+        const service = getService();
+        if (!service) {
+          return textResult('No workspace folder is open.');
+        }
+        try {
+          const config = getConfig();
+          const token = await getToken();
+          const report = await service.refresh(config, { token });
+          setReport(report);
+          codeLens.setEstimates(report.estimates);
+          dashboard.showReport(report);
+          dashboard.setSummary(
+            report.connected
+              ? `${report.estimates.length} hotspot(s) · ${report.sourceKind}`
+              : 'Not connected'
+          );
+          return textResult(service.formatReport(report, options.input?.filePath));
+        } catch (err) {
+          return textResult(err instanceof Error ? err.message : String(err));
+        }
       },
     })
   );
+}
+
+function textResult(text: string): vscode.LanguageModelToolResult {
+  return new vscode.LanguageModelToolResult([new vscode.LanguageModelTextPart(text)]);
 }
