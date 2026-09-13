@@ -100,5 +100,16 @@
   "galleryBanner": {
     "color": "#065F46",
     "theme": "dark"
+  },
+  "keywords": [
+    "cost",
+    "opentelemetry",
+    "codelens",
+    "observability",
+    "finops"
+  ],
+  "homepage": "https://github.com/bobrowsse-tech/cost-of-code-hints#readme",
+  "bugs": {
+    "url": "https://github.com/bobrowsse-tech/cost-of-code-hints/issues"
   }
 }
