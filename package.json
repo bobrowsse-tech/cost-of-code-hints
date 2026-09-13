@@ -95,5 +95,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/bobrowsse-tech/cost-of-code-hints"
+  },
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#065F46",
+    "theme": "dark"
   }
 }
