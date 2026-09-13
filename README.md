@@ -44,3 +44,7 @@ MIT
 ## Contributing
 
 Changes to `main` must go through a pull request. See [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+### Extension Development Host
+
+With the local suite umbrella checked out, press **F5** (**Extension + playground**) to load `../playgrounds/cost-of-code-hints/` as the test workspace.
