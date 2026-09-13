@@ -1,0 +1,98 @@
+{
+  "name": "cost-of-code-hints",
+  "displayName": "Cost-of-Code Inline Hints",
+  "description": "Annotates expensive code paths with what they actually cost at current traffic, sourced from real trace and billing data.",
+  "version": "0.1.0",
+  "publisher": "bobrowsse-tech",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cost-of-code-hintsContainer",
+          "title": "Cost-of-Code Inline Hints",
+          "icon": "$(graph-line)"
+        }
+      ]
+    },
+    "views": {
+      "cost-of-code-hintsContainer": [
+        {
+          "id": "cost-of-code-hintsView",
+          "name": "Dashboard",
+          "type": "webview"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "costHints.connectSource",
+        "title": "Cost-of-Code Inline Hints: Connect Telemetry Source"
+      },
+      {
+        "command": "costHints.refresh",
+        "title": "Cost-of-Code Inline Hints: Refresh Estimates"
+      },
+      {
+        "command": "costHints.viewHotspots",
+        "title": "Cost-of-Code Inline Hints: View Hotspots"
+      }
+    ],
+    "languageModelTools": [
+      {
+        "name": "estimate_code_cost",
+        "tags": [
+          "cost-of-code-hints"
+        ],
+        "toolReferenceName": "estimate_code_cost",
+        "displayName": "Cost-of-Code Inline Hints — estimate_code_cost",
+        "modelDescription": "Estimates the current cost of a specific function or code path using connected telemetry and a pricing model, where a telemetry source is configured. Use this when the user asks what a piece of code costs to run or wants to find expensive hotspots.",
+        "canBeReferencedInPrompt": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "filePath": {
+              "type": "string",
+              "description": "Optional file to scope the estimate to. Omit to report the top cost hotspots workspace-wide."
+            }
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "npm run check-types && node esbuild.js",
+    "check-types": "tsc --noEmit",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "vscode:prepublish": "npm run package",
+    "package": "npm run check-types && node esbuild.js --production",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.95.0",
+    "@types/node": "^20.0.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.0",
+    "esbuild": "^0.24.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "latest",
+    "node-fetch": "latest"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bobrowsse-tech/cost-of-code-hints"
+  }
+}
