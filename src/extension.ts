@@ -29,7 +29,7 @@ function createService(): CostHintsService | undefined {
 }
 
 export function activate(context: vscode.ExtensionContext) {
-  const dashboard = new DashboardProvider(context.extensionUri);
+  const dashboard = new DashboardProvider();
   const codeLens = new CostCodeLensProvider();
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider('cost-of-code-hintsView', dashboard),
