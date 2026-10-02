@@ -2,8 +2,13 @@
   "name": "cost-of-code-hints",
   "displayName": "Cost-of-Code Inline Hints",
   "description": "Annotates expensive code paths with what they actually cost at current traffic, sourced from real trace and billing data.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "bobrowsse-tech",
+  "author": {
+    "name": "Bob Rowsse Walakira",
+    "email": "hello@bobrowsse.com",
+    "url": "https://bobrowsse.com"
+  },
   "engines": {
     "vscode": "^1.95.0"
   },
@@ -110,6 +115,7 @@
   ],
   "homepage": "https://github.com/bobrowsse-tech/cost-of-code-hints#readme",
   "bugs": {
-    "url": "https://github.com/bobrowsse-tech/cost-of-code-hints/issues"
+    "url": "https://github.com/bobrowsse-tech/cost-of-code-hints/issues",
+    "email": "hello@bobrowsse.com"
   }
 }
