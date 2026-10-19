@@ -80,6 +80,21 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         run: npx --yes ovsx publish extension.vsix --trusted-publishing
 
+
+      - name: Refresh extension directory
+        if: ${{ !cancelled() }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.DIRECTORY_DISPATCH_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "DIRECTORY_DISPATCH_TOKEN unset — skip directory refresh"
+            exit 0
+          fi
+          gh api repos/bobrowsse-tech/vscode-extensions/dispatches \
+            -f event_type=extension-published \
+            -f "client_payload[extension]=${GITHUB_REPOSITORY#*/}"
+
       - name: Tag release v*
         if: steps.gate.outputs.skip != 'true'
         env:
